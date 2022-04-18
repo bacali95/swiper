@@ -28,6 +28,12 @@ class Build {
     return this;
   }
 
+  addMultipleFormats(flag, buildFn) {
+    return this.add(flag, async () =>
+      Promise.all(['esm', 'cjs'].map((format) => buildFn(format, this.outputDir))),
+    );
+  }
+
   async run() {
     if (!this.argv.includes('--only')) {
       await fs.remove(`./${outputDir}`);
@@ -65,9 +71,9 @@ class Build {
     .add('styles', buildStyles)
     .add('core', buildJsCore)
     .add('bundle', buildJsBundle)
-    .add('react', buildReact)
-    .add('vue', buildVue)
-    .add('svelte', buildSvelte)
+    .addMultipleFormats('react', buildReact)
+    .addMultipleFormats('vue', buildVue)
+    .addMultipleFormats('svelte', buildSvelte)
     .add('angular', buildAngular)
     .run();
   elapsed.end('build', chalk.bold.green('Build completed'));

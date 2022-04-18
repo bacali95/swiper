@@ -18,11 +18,11 @@ const isProd = require('./utils/isProd')();
 async function buildEntry(modules, format, browser = false) {
   const isUMD = format === 'umd';
   const isESM = format === 'esm';
-  if (isUMD) browser = true;
+  const isCJS = format === 'cjs';
   const needSourceMap = isProd && (isUMD || (isESM && browser));
   const external = isUMD || browser ? [] : () => true;
   let filename = 'swiper-bundle';
-  if (isESM) filename += `.esm`;
+  if (!isUMD) filename += `.${format}`;
   if (isESM && browser) filename += '.browser';
 
   return rollup({
@@ -55,6 +55,14 @@ async function buildEntry(modules, format, browser = false) {
       }),
     )
     .then(async (bundle) => {
+      if (!browser && (isCJS || isESM)) {
+        // Fix imports
+        const modularContent = fs
+          .readFileSync(`./${outputDir}/${filename}.js`, 'utf-8')
+          .replace(/require\('\.\//g, `require('./${format}/`)
+          .replace(/from '\.\//g, `from './${format}/`);
+        fs.writeFileSync(`./${outputDir}/${filename}.js`, modularContent);
+      }
       if (!isProd || !browser) {
         return;
       }
@@ -106,7 +114,12 @@ async function buildJsBundle() {
       modules.push({ name, capitalized });
     }
   });
-  return Promise.all([buildEntry(modules, 'umd'), buildEntry(modules, 'esm')]).then(() => {
+  return Promise.all([
+    buildEntry(modules, 'cjs', false),
+    buildEntry(modules, 'esm', false),
+    buildEntry(modules, 'esm', true),
+    buildEntry(modules, 'umd', true),
+  ]).then(() => {
     elapsed.end('bundle', chalk.green('\nBundle build completed!'));
   });
 }

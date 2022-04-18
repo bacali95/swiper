@@ -9,23 +9,38 @@ const config = require('./build-config');
 const { outputDir } = require('./utils/output-dir');
 const { banner } = require('./utils/banner');
 
-async function buildCore(modules) {
-  const filename = `swiper.esm`;
-  const coreContent = [
-    banner(),
-    `export { default as Swiper, default } from './core/core.js';`,
-    ...modules.map(
-      ({ name, capitalized }) =>
-        `export { default as ${capitalized} } from './modules/${name}/${name}.js';`,
-    ),
-  ].join('\n');
+async function buildCore(modules, format) {
+  const filename = `swiper.${format}`;
+  const coreContent =
+    format === 'esm'
+      ? [
+          banner(),
+          `export { default as Swiper, default } from './${format}/core/core.js';`,
+          ...modules.map(
+            ({ name, capitalized }) =>
+              `export { default as ${capitalized} } from './${format}/modules/${name}/${name}.js';`,
+          ),
+        ].join('\n')
+      : [
+          banner(),
+          `"use strict";`,
+          `exports.__esModule = true;`,
+          `exports.default = require('./${format}/core/core.js').default;`,
+          `exports.Swiper = require('./${format}/core/core.js').default;`,
+          ...modules.map(
+            ({ name, capitalized }) =>
+              `exports.${capitalized} = require('./${format}/modules/${name}/${name}.js').default;`,
+          ),
+        ].join('\n');
 
   await Promise.all([
     fs.writeFile(`./${outputDir}/${filename}.js`, coreContent),
-    exec(`npx babel src --out-dir ${outputDir} --config-file ./scripts/babel/babel.config.core.js`),
+    exec(
+      `npx cross-env MODULES=${format} npx babel src --out-dir ${outputDir}/${format} --config-file ./scripts/babel/babel.config.core.js`,
+    ),
   ]);
 
-  await fs.unlink(`./${outputDir}/swiper.js`);
+  await fs.unlink(`./${outputDir}/${format}/swiper.js`);
 }
 
 async function build() {
@@ -51,7 +66,7 @@ async function build() {
     }
   });
 
-  await buildCore(modules, 'esm');
+  await Promise.all([buildCore(modules, 'esm'), buildCore(modules, 'cjs')]);
   elapsed.end('core', chalk.green('Core build completed!'));
 }
 

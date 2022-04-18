@@ -1,3 +1,6 @@
+let modules = process.env.MODULES || false;
+if (modules === 'esm' || modules === 'false') modules = false;
+
 module.exports = {
   ignore: [
     '../../src/angular/**/*.js',
@@ -9,5 +12,5 @@ module.exports = {
     '../../src/svelte/**/*.js',
     '../../src/*-svelte.js',
   ],
-  presets: [['@babel/preset-env', { modules: false, loose: true }]],
+  presets: [['@babel/preset-env', { modules, loose: true }]],
 };
