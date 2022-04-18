@@ -7,9 +7,9 @@
     A11y,
     Virtual,
     // eslint-disable-next-line
-  } from 'swiper';
+  } from 'swiper-cjs';
   // eslint-disable-next-line
-  import { Swiper, SwiperSlide } from 'swiper/svelte/swiper-svelte.js';
+  import { Swiper, SwiperSlide } from 'swiper-cjs/svelte/swiper-svelte.js';
 
   const data = {
     min: 1,

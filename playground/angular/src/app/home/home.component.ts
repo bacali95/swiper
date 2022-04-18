@@ -12,7 +12,7 @@ import SwiperCore, {
   Autoplay,
   Thumbs,
   Controller,
-} from 'swiper';
+} from 'swiper-cjs';
 
 SwiperCore.use([
   Navigation,

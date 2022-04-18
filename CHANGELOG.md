@@ -791,7 +791,7 @@
     ...
   </Swiper>
   <script>
-    import { Swiper, SwiperSlide } from 'swiper/svelte';
+    import { Swiper, SwiperSlide } from 'swiper-cjs/svelte';
   </script>
   ```
 
@@ -808,7 +808,7 @@
     </swiper>
   </template>
   <script>
-    import { Swiper, SwiperSlide } from 'swiper/vue';
+    import { Swiper, SwiperSlide } from 'swiper-cjs/vue';
 
     export default {
       components: {
@@ -896,18 +896,18 @@
     - `swiper.cjs.js` - Swiper core JavaScript in CommonJS format
     - `swiper.esm.js` - Swiper core JavaScript in ESM format
   - Following imports are now available
-    - `import Swiper from 'swiper'` - imports core version
-    - `import Swiper from 'swiper/bundle'` - imports bundle version
-    - `import Swiper from 'swiper/core'` - imports core version
+    - `import Swiper from 'swiper-cjs'` - imports core version
+    - `import Swiper from 'swiper-cjs/bundle'` - imports bundle version
+    - `import Swiper from 'swiper-cjs/core'` - imports core version
   - Components can be imported from core version using named imports, or using direct import:
 
     ```js
-    import { Navigation } from 'swiper';
+    import { Navigation } from 'swiper-cjs';
     // or
-    import Navigation from 'swiper/components/navigation';
+    import Navigation from 'swiper-cjs/components/navigation';
 
     // and styles (Less or SCSS only)
-    import 'swiper/components/navigation/navigation.less';
+    import 'swiper-cjs/components/navigation/navigation.less';
     ```
 
 - Full server-side rendering support (SSR) with new parameters:
@@ -922,7 +922,7 @@
 - All new Swiper React components:
 
   ```jsx
-  import { Swiper, SwiperSlide } from 'swiper/react';
+  import { Swiper, SwiperSlide } from 'swiper-cjs/react';
 
   export default () => {
     return (
@@ -1356,7 +1356,7 @@
 - Virtual Slides - new module that keeps in DOM just required amount of slides
 - Source code has been fully rewritten in ES-next syntax
 - Dist package contains additional ES-next modules:
-  - `swiper.module.js` - swiper bundle for `import Swiper from 'swiper'`
+  - `swiper.module.js` - swiper bundle for `import Swiper from 'swiper-cjs'`
   - `swiper.modular.js` - modular version for using Swiper with required components only
 - New `scripts/build-config.js` for creating custom Swiper build with required components and custom color theme
 - jQuery version of Swiper has been removed
