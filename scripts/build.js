@@ -1,17 +1,17 @@
-import chalk from 'chalk';
-import fs from 'fs-extra';
-import elapsed from 'elapsed-time-logger';
-import buildJsCore from './build-js-core.js';
-import buildJsBundle from './build-js-bundle.js';
-import buildTypes from './build-types.js';
-import buildReact from './build-react.js';
-import buildVue from './build-vue.js';
-import buildSolid from './build-solid.js';
-import buildSvelte from './build-svelte.js';
-import buildStyles from './build-styles.js';
-import buildAngular from './build-angular.js';
-import outputCheckSize from './check-size.js';
-import { outputDir } from './utils/output-dir.js';
+const chalk = require('chalk');
+const fs = require('fs-extra');
+const elapsed = require('elapsed-time-logger');
+const buildJsCore = require('./build-js-core.js');
+const buildJsBundle = require('./build-js-bundle.js');
+const buildTypes = require('./build-types.js');
+const buildReact = require('./build-react.js');
+const buildVue = require('./build-vue.js');
+const buildSolid = require('./build-solid.js');
+const buildSvelte = require('./build-svelte.js');
+const buildStyles = require('./build-styles.js');
+const buildAngular = require('./build-angular.js');
+const outputCheckSize = require('./check-size.js');
+const { outputDir } = require('./utils/output-dir.js');
 
 class Build {
   constructor() {
@@ -27,6 +27,12 @@ class Build {
       this.tasks.push(() => buildFn());
     }
     return this;
+  }
+
+  addMultipleFormats(flag, buildFn) {
+    return this.add(flag, async () =>
+      Promise.all(['esm', 'cjs'].map((format) => buildFn(format, this.outputDir))),
+    );
   }
 
   async run() {
@@ -62,10 +68,10 @@ class Build {
     .add('styles', buildStyles)
     .add('core', buildJsCore)
     .add('bundle', buildJsBundle)
-    .add('react', buildReact)
-    .add('vue', buildVue)
-    .add('solid', buildSolid)
-    .add('svelte', buildSvelte)
+    .addMultipleFormats('react', buildReact)
+    .addMultipleFormats('vue', buildVue)
+    .addMultipleFormats('solid', buildSolid)
+    .addMultipleFormats('svelte', buildSvelte)
     .add('angular', buildAngular)
     .run();
   elapsed.end('build', chalk.bold.green('Build completed'));

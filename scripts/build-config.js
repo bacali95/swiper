@@ -1,4 +1,4 @@
-export const modules = [
+module.exports.modules = [
   'virtual',
   'keyboard',
   'mousewheel',
@@ -24,7 +24,3 @@ export const modules = [
   'effect-creative',
   'effect-cards',
 ];
-
-export default {
-  modules,
-};

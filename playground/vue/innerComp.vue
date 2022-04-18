@@ -6,7 +6,7 @@
 import { inject } from 'vue';
 export default {
   setup() {
-    const swiper = inject('swiper');
+    const swiper = inject('swiper-cjs');
     const swiperSlide = inject('swiperSlide');
     console.log({ swiper, swiperSlide });
     return {

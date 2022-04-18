@@ -1,14 +1,11 @@
-import path from 'path';
-import { globby } from 'globby';
-import elapsed from 'elapsed-time-logger';
-import chalk from 'chalk';
-import fs from 'fs-extra';
-import * as url from 'url';
-import { outputDir } from './utils/output-dir.js';
+const path = require('path');
+const globby = require('globby');
+const elapsed = require('elapsed-time-logger');
+const chalk = require('chalk');
+const fs = require('fs-extra');
+const { outputDir } = require('./utils/output-dir.js');
 
-const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
-
-export default async function buildTypes() {
+async function buildTypes() {
   elapsed.start('types');
   let coreEventsReact = '';
   let coreEventsSolid = '';
@@ -132,3 +129,5 @@ export default async function buildTypes() {
   );
   elapsed.end('types', chalk.green('Types build completed!'));
 }
+
+module.exports = buildTypes;

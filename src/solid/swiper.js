@@ -7,7 +7,7 @@ import {
   Show,
   splitProps,
 } from 'solid-js';
-import SwiperCore from 'swiper';
+import SwiperCore from 'swiper-cjs';
 import { SwiperContext } from './context.js';
 import { getChangedParams } from '../components-shared/get-changed-params.js';
 import { getChildren } from './get-children.js';

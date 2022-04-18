@@ -1,9 +1,9 @@
-import exec from 'exec-sh';
-import inquirer from 'inquirer';
-import fs from 'fs';
-import path from 'path';
-import rimraf from 'rimraf';
-import * as url from 'url';
+const exec = require('exec-sh');
+const inquirer = require('inquirer');
+const fs = require('fs');
+const path = require('path');
+const rimraf = require('rimraf');
+const url = require('url');
 
 const pkg = JSON.parse(fs.readFileSync(new URL('../package.json', import.meta.url)));
 const childPkg = JSON.parse(fs.readFileSync(new URL('../src/copy/package.json', import.meta.url)));

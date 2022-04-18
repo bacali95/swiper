@@ -1,4 +1,4 @@
-import 'swiper/swiper-bundle.css';
+import 'swiper-cjs/swiper-bundle.css';
 
 import { render } from 'solid-js/web';
 

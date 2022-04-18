@@ -1,8 +1,8 @@
 /** @jsxImportSource solid-js */
 /* eslint-disable no-restricted-globals */
 import { createSignal } from 'solid-js';
-import { Navigation, Pagination, Scrollbar, A11y, Virtual } from 'swiper';
-import { Swiper, SwiperSlide } from 'swiper/solid/swiper-solid';
+import { Navigation, Pagination, Scrollbar, A11y, Virtual } from 'swiper-cjs';
+import { Swiper, SwiperSlide } from 'swiper-cjs/solid/swiper-solid';
 
 const App = () => {
   return (

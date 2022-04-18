@@ -31,7 +31,7 @@ export interface SwiperOptions {
    *
    * @example
    * ```js
-   * import Swiper, { Navigation, Pagination } from 'swiper';
+   * import Swiper, { Navigation, Pagination } from 'swiper-cjs';
    *
    * const swiper = new Swiper('.swiper', {
    *    modules: [ Navigation, Pagination ],

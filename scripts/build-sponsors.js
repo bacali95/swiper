@@ -1,7 +1,7 @@
-import fs from 'fs';
-import path from 'path';
-import https from 'https';
-import * as url from 'url';
+const fs = require('fs');
+const path = require('path');
+const https = require('https');
+const url = require('url');
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 const getSponsors = () => {

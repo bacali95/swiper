@@ -1,1 +1,1 @@
-export const outputDir = 'dist';
+module.exports.outputDir = 'dist';

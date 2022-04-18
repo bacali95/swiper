@@ -1,4 +1,4 @@
-import Swiper from 'swiper';
+import Swiper from 'swiper-cjs';
 
 export const calcLoopedSlides = (slides, swiperParams) => {
   let slidesPerViewParams = swiperParams.slidesPerView;

@@ -1,5 +1,5 @@
 // @ts-ignore
-import Swiper from 'swiper';
+import Swiper from 'swiper-cjs';
 import { paramsList } from './params-list';
 import { extend, isObject } from './utils';
 type KeyValueType = { [x: string]: any };

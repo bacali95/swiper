@@ -1,11 +1,8 @@
-import fs from 'fs';
-import path from 'path';
-import { gzipSizeFromFileSync } from 'gzip-size';
-import * as url from 'url';
+const fs = require('fs');
+const path = require('path');
+const { gzipSizeFromFileSync } = require('gzip-size');
 
-const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
-
-export default function checkSize() {
+function checkSize() {
   return [
     'swiper-bundle.min.js',
     //  'swiper-bundle.esm.js'
@@ -26,3 +23,5 @@ export default function checkSize() {
       size: total.size + num.size,
     }));
 }
+
+module.exports = checkSize;

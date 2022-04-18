@@ -1,6 +1,6 @@
-import CleanCSS from 'clean-css';
+const CleanCSS = require('clean-css');
 
-export default (content, options = {}) => {
+module.exports = (content, options = {}) => {
   // eslint-disable-next-line
   options = Object.assign(
     {

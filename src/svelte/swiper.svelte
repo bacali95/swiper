@@ -1,6 +1,6 @@
 <script>
   import { onMount, onDestroy, afterUpdate, createEventDispatcher, tick, setContext } from 'svelte';
-  import Swiper from 'swiper';
+  import Swiper from 'swiper-cjs';
   import { getParams } from '../components-shared/get-params.js';
   import { mountSwiper } from '../components-shared/mount-swiper.js';
   import {

@@ -1,6 +1,6 @@
-import fs from 'fs-extra';
+const fs = require('fs-extra');
+const pkg = require('../../package.json');
 
-const pkg = JSON.parse(fs.readFileSync(new URL('../../package.json', import.meta.url)));
 const date = {
   day: new Date().getDate(),
   month:
@@ -28,9 +28,4 @@ async function addBannerToFile(file, name) {
   const content = await fs.readFile(file, 'utf-8');
   await fs.writeFile(file, `${banner(name)}\n${content}`);
 }
-export { banner };
-export { addBannerToFile };
-export default {
-  banner,
-  addBannerToFile,
-};
+module.exports = { banner, addBannerToFile };

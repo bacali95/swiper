@@ -11,7 +11,7 @@ import SwiperCore, {
   Thumbs,
   Virtual,
   Zoom,
-} from 'swiper';
+} from 'swiper-cjs';
 
 SwiperCore.use([
   Navigation,

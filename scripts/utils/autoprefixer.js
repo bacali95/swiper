@@ -1,7 +1,7 @@
-import postcss from 'postcss';
-import autoprefixer from 'autoprefixer';
+const postcss = require('postcss');
+const autoprefixer = require('autoprefixer');
 
-export default async (content, { from = undefined, to = undefined } = {}) =>
+module.exports = async (content, { from = undefined, to = undefined } = {}) =>
   new Promise((resolve, reject) => {
     postcss([autoprefixer])
       .process(content, { from, to })

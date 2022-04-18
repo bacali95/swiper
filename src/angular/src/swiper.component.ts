@@ -18,7 +18,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 // @ts-ignore
-import Swiper from 'swiper';
+import Swiper from 'swiper-cjs';
 import { Observable, of, Subject } from 'rxjs';
 import { getParams } from './utils/get-params';
 import { SwiperSlideDirective } from './swiper-slide.directive';
@@ -39,7 +39,7 @@ import {
   PaginationOptions,
   ScrollbarOptions,
   VirtualOptions,
-} from 'swiper/types';
+} from 'swiper-cjs/types';
 import { isPlatformBrowser } from '@angular/common';
 @Component({
   selector: 'swiper, [swiper]',
@@ -458,7 +458,7 @@ export class SwiperComponent implements OnInit {
 
   @Output('zoomChange') s_zoomChange = new EventEmitter<EventsParams['zoomChange']>();
 
-  @Output('swiper') s_swiper = new EventEmitter<any>();
+  @Output('swiper-cjs') s_swiper = new EventEmitter<any>();
 
   @Output('lock') s_lock = new EventEmitter<EventsParams['lock']>();
 

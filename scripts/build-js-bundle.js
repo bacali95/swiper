@@ -1,24 +1,24 @@
-import fs from 'fs-extra';
-import chalk from 'chalk';
-import elapsed from 'elapsed-time-logger';
-import { rollup } from 'rollup';
-import { babel } from '@rollup/plugin-babel';
-import replace from '@rollup/plugin-replace';
-import { nodeResolve } from '@rollup/plugin-node-resolve';
-import { minify } from 'terser';
-import { modules as configModules } from './build-config.js';
-import { outputDir } from './utils/output-dir.js';
-import { banner } from './utils/banner.js';
-import isProd from './utils/isProd.js';
+const fs = require('fs-extra');
+const chalk = require('chalk');
+const elapsed = require('elapsed-time-logger');
+const { rollup } = require('rollup');
+const { babel } = require('@rollup/plugin-babel');
+const replace = require('@rollup/plugin-replace');
+const { nodeResolve } = require('@rollup/plugin-node-resolve');
+const { minify } = require('terser');
+const { modules: configModules } = require('./build-config.js');
+const { outputDir } = require('./utils/output-dir.js');
+const { banner } = require('./utils/banner.js');
+const isProd = require('./utils/isProd.js');
 
 async function buildEntry(modules, format, browser = false) {
   const isUMD = format === 'umd';
   const isESM = format === 'esm';
-  if (isUMD) browser = true;
+  const isCJS = format === 'cjs';
   const needSourceMap = isProd && (isUMD || (isESM && browser));
   const external = isUMD || browser ? [] : () => true;
   let filename = 'swiper-bundle';
-  if (isESM) filename += `.esm`;
+  if (!isUMD) filename += `.${format}`;
   if (isESM && browser) filename += '.browser';
 
   return rollup({
@@ -51,6 +51,14 @@ async function buildEntry(modules, format, browser = false) {
       }),
     )
     .then(async (bundle) => {
+      if (!browser && (isCJS || isESM)) {
+        // Fix imports
+        const modularContent = fs
+          .readFileSync(`./${outputDir}/${filename}.js`, 'utf-8')
+          .replace(/require\('\.\//g, `require('./${format}/`)
+          .replace(/from '\.\//g, `from './${format}/`);
+        fs.writeFileSync(`./${outputDir}/${filename}.js`, modularContent);
+      }
       if (!isProd || !browser) {
         return;
       }
@@ -79,7 +87,7 @@ async function buildEntry(modules, format, browser = false) {
     });
 }
 
-export default async function buildJsBundle() {
+async function buildJsBundle() {
   elapsed.start('bundle');
   const modules = [];
   configModules.forEach((name) => {
@@ -101,7 +109,14 @@ export default async function buildJsBundle() {
       modules.push({ name, capitalized });
     }
   });
-  return Promise.all([buildEntry(modules, 'umd'), buildEntry(modules, 'esm')]).then(() => {
+  return Promise.all([
+    buildEntry(modules, 'cjs', false),
+    buildEntry(modules, 'esm', false),
+    buildEntry(modules, 'esm', true),
+    buildEntry(modules, 'umd', true),
+  ]).then(() => {
     elapsed.end('bundle', chalk.green('\nBundle build completed!'));
   });
 }
+
+module.exports = buildJsBundle;

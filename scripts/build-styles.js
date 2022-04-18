@@ -1,18 +1,15 @@
-import fs from 'fs-extra';
-import path from 'path';
-import { globby } from 'globby';
-import * as url from 'url';
-import chalk from 'chalk';
-import elapsed from 'elapsed-time-logger';
-import less from './utils/less.js';
-import autoprefixer from './utils/autoprefixer.js';
-import minifyCSS from './utils/clean-css.js';
-import { banner } from './utils/banner.js';
-import config from './build-config.js';
-import { outputDir } from './utils/output-dir.js';
-import isProd from './utils/isProd.js';
-
-const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+const fs = require('fs-extra');
+const path = require('path');
+const globby = require('globby');
+const chalk = require('chalk');
+const elapsed = require('elapsed-time-logger');
+const less = require('./utils/less.js');
+const autoprefixer = require('./utils/autoprefixer.js');
+const minifyCSS = require('./utils/clean-css.js');
+const { banner } = require('./utils/banner.js');
+const config = require('./build-config.js');
+const { outputDir } = require('./utils/output-dir.js');
+const isProd = require('./utils/isProd.js');
 
 const readSwiperFile = async (filePath) => {
   const fileContent = await fs.readFile(filePath, 'utf-8');
@@ -64,15 +61,17 @@ const buildCSS = async ({ isBundle, modules, minified }) => {
     await fs.writeFile(`./${outputDir}/${fileName}.min.css`, `${banner()}\n${minifiedContent}`);
   }
 };
-export default async function buildStyles() {
+
+async function buildStyles() {
   elapsed.start('styles');
   // eslint-disable-next-line import/no-named-as-default-member
   const modules = config.modules.filter((name) => {
     const lessFilePath = `./src/modules/${name}/${name}.less`;
     return fs.existsSync(lessFilePath);
   });
-  buildCSS({ isBundle: true, modules, minified: isProd });
-  buildCSS({ isBundle: false, modules, minified: isProd });
+
+  await buildCSS({ isBundle: true, modules, minified: isProd });
+  await buildCSS({ isBundle: false, modules, minified: isProd });
   if (isProd) {
     // Copy less & scss
     const files = await globby(
@@ -122,3 +121,5 @@ export default async function buildStyles() {
   }
   elapsed.end('styles', chalk.green('Styles build completed!'));
 }
+
+module.exports = buildStyles;

@@ -1,15 +1,15 @@
-import fs from 'fs';
-import path from 'path';
-import chalk from 'chalk';
-import * as url from 'url';
-import buildJsCore from './build-js-core.js';
-import buildJsBundle from './build-js-bundle.js';
-import buildTypes from './build-types.js';
-import buildStyles from './build-styles.js';
-import buildReact from './build-react.js';
-import buildVue from './build-vue.js';
-import buildSolid from './build-solid.js';
-import buildSvelte from './build-svelte.js';
+const fs = require('fs');
+const path = require('path');
+const chalk = require('chalk');
+const url = require('url');
+const buildJsCore = require('./build-js-core.js');
+const buildJsBundle = require('./build-js-bundle.js');
+const buildTypes = require('./build-types.js');
+const buildStyles = require('./build-styles.js');
+const buildReact = require('./build-react.js');
+const buildVue = require('./build-vue.js');
+const buildSolid = require('./build-solid.js');
+const buildSvelte = require('./build-svelte.js');
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 console.log(chalk.cyan('Watching file changes ...'));

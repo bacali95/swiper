@@ -1,3 +1,3 @@
-import checkSize from './check-size.js';
+const checkSize = require('./check-size.js');
 
 checkSize();
