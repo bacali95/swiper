@@ -1,5 +1,5 @@
 {
-  "name": "swiper-fork",
+  "name": "swiper-cjs",
   "version": "8.1.1",
   "description": "Most modern mobile touch slider and framework with hardware accelerated transitions",
   "main": "swiper.cjs.js",
